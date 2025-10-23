@@ -1,40 +1,16 @@
-# TODO: Migrar Portafolio a React
+# Migración del Sitio Web de Hoja de Vida a React
 
-## Paso 1: Configurar Proyecto React
-- [x] Crear nueva aplicación React usando Vite en el directorio actual.
-- [x] Instalar dependencias necesarias: react-router-dom, font-awesome, bootstrap (si se usa).
+## Pasos a Completar
 
-## Paso 2: Copiar Assets
-- [x] Copiar carpeta img/ al proyecto React (src/assets/).
-- [x] Copiar carpeta Certificados/ al proyecto React (src/assets/).
-
-## Paso 3: Migrar CSS
-- [x] Copiar style.css a src/styles/style.css.
-- [x] Ajustar rutas de imágenes en CSS para que apunten a assets.
-
-## Paso 4: Crear Componentes Base
-- [x] Crear componente Header.
-- [x] Crear componente Footer.
-- [x] Crear componente Skills.
-- [x] Crear componente Home (página principal).
-- [x] Crear componente About (página sobre mí).
-- [x] Crear componente Projects (página proyectos).
-
-## Paso 5: Configurar Rutas con React Router
-- [x] Configurar BrowserRouter en App.js.
-- [x] Definir rutas: / (Home), /about, /projects.
-
-## Paso 6: Migrar Contenido y Lógica
-- [x] Migrar contenido de index.html a componente Home.
-- [x] Migrar contenido de about.html a componente About.
-- [x] Migrar contenido de proyectos.html a componente Projects.
-- [x] Migrar lógica JS (navegación, botones) a hooks y eventos en React.
-
-## Paso 7: Ajustes Finales
-- [x] Verificar responsive design.
-- [x] Probar navegación entre páginas.
-- [x] Ejecutar el proyecto y verificar que funcione correctamente.
-
-## Paso 8: Limpiar y Optimizar
-- [x] Eliminar archivos innecesarios del template.
-- [x] Optimizar componentes si es necesario.
+- [x] Configurar una nueva aplicación React usando Create React App en el directorio actual.
+- [x] Instalar React Router para navegación entre páginas.
+- [x] Crear componentes reutilizables: Header, Footer, Skills, ProjectCard, StudyCard, etc.
+- [x] Convertir páginas HTML a componentes React (Home, About, Projects).
+- [x] Mover CSS a estilos específicos de componentes o estilos globales.
+- [x] Manejar imágenes y certificados copiándolos a la carpeta public.
+- [x] Convertir lógica de navegación JS a React Router Links y useState para interacciones.
+- [x] Asegurar diseño responsivo y que toda la funcionalidad (botones, enlaces) funcione.
+- [x] Probar navegación y responsividad.
+- [x] Verificar que todos los enlaces y botones funcionen.
+- [x] Optimizar para construcción de producción.
+- [x] Remover scrollToSkills y cambiar botones a Links para navegación.
