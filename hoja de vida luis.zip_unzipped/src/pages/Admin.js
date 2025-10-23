@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import ExperienceForm from '../components/ExperienceForm';
 import ExperienceList from '../components/ExperienceList';
-import { getExperiences, createExperience, updateExperience, deleteExperience } from '../services/apiService';
+import {
+  createExperience,
+  updateExperience,
+  deleteExperience,
+  getExperiencesByUser
+} from '../services/apiService';
 import '../styles/admin.css';
 
 const Admin = () => {
@@ -10,28 +15,33 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // 🔹 ID del usuario actual (cámbialo por el tuyo si es distinto)
+  const userId = '68f663330061790d3bb8b23a';
+
   useEffect(() => {
     loadExperiences();
   }, []);
 
+  // 🔹 Cargar experiencias solo del usuario actual
   const loadExperiences = async () => {
     try {
       setLoading(true);
       setError(null);
-      const data = await getExperiences();
+      const data = await getExperiencesByUser(userId);
       setExperiences(data);
     } catch (err) {
-      setError(err.message || 'Error al cargar las experiencias');
+      setError(err.message || 'Error al cargar las experiencias del usuario');
       console.error('Error loading experiences:', err);
     } finally {
       setLoading(false);
     }
   };
 
+  // 🔹 Crear experiencia
   const handleCreate = async (experienceData) => {
     try {
       setError(null);
-      await createExperience(experienceData);
+      await createExperience({ ...experienceData, usuarioReferencia: userId });
       await loadExperiences();
     } catch (err) {
       setError(err.message || 'Error al crear la experiencia');
@@ -39,6 +49,7 @@ const Admin = () => {
     }
   };
 
+  // 🔹 Actualizar experiencia
   const handleUpdate = async (id, experienceData) => {
     try {
       setError(null);
@@ -51,6 +62,7 @@ const Admin = () => {
     }
   };
 
+  // 🔹 Eliminar experiencia
   const handleDelete = async (id) => {
     if (window.confirm('¿Estás seguro de que quieres eliminar esta experiencia?')) {
       try {
@@ -72,6 +84,7 @@ const Admin = () => {
     setEditingExperience(null);
   };
 
+  // 🔹 Renderizado condicional de carga y errores
   if (loading) return (
     <div className="admin-container">
       <div className="loading">
@@ -86,7 +99,7 @@ const Admin = () => {
       <div className="error">
         <h2>Error de conexión</h2>
         <p>{error}</p>
-        <p>Verifica que la API esté corriendo en el puerto correcto.</p>
+        <p>Verifica que la API esté corriendo correctamente.</p>
         <button onClick={loadExperiences} className="btn-submit">Reintentar</button>
       </div>
     </div>
@@ -94,23 +107,24 @@ const Admin = () => {
 
   console.log('Rendering Admin component');
   console.log('Experiences:', experiences);
-  console.log('Loading:', loading);
-  console.log('Error:', error);
 
   return (
     <div className="admin-container">
       <h1>Panel Administrativo - Experiencias Profesionales</h1>
 
       <div className="admin-content">
+        {/* 🔹 Formulario de creación / edición */}
         <div className="admin-form-section">
           <h2>{editingExperience ? 'Editar Experiencia' : 'Nueva Experiencia'}</h2>
           <ExperienceForm
-            onSubmit={editingExperience ? (data) => handleUpdate(editingExperience.id, data) : handleCreate}
+            onSubmit={editingExperience ? (data) => handleUpdate(editingExperience._id, data) : handleCreate}
             initialData={editingExperience}
             onCancel={editingExperience ? handleCancelEdit : null}
           />
+
         </div>
 
+        {/* 🔹 Lista de experiencias */}
         <div className="admin-list-section">
           <h2>Lista de Experiencias ({experiences.length})</h2>
           <ExperienceList

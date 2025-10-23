@@ -2,56 +2,67 @@ import React, { useState, useEffect } from 'react';
 
 const ExperienceForm = ({ onSubmit, initialData, onCancel }) => {
   const [formData, setFormData] = useState({
-    title: '',
-    company: '',
-    period: '',
-    location: '',
-    description: '',
-    achievements: '',
-    technologies: '',
-    current: false
+    titulo: '',
+    empresa: '',
+    periodo: '',
+    ubicacion: '',
+    descripcion: '',
+    logros: '',
+    tecnologias: '',
+    usuarioReferencia: '68f663330061790d3bb8b23a' // 
   });
 
   useEffect(() => {
     if (initialData) {
       setFormData({
         ...initialData,
-        technologies: Array.isArray(initialData.technologies)
-          ? initialData.technologies.join(', ')
-          : initialData.technologies || '',
-        achievements: Array.isArray(initialData.achievements)
-          ? initialData.achievements.join(', ')
-          : initialData.achievements || ''
+        tecnologias: Array.isArray(initialData.tecnologias)
+          ? initialData.tecnologias.join(', ')
+          : initialData.tecnologias || '',
+        logros: Array.isArray(initialData.logros)
+          ? initialData.logros.join(', ')
+          : initialData.logros || ''
       });
     }
   }, [initialData]);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: value
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const submitData = {
       ...formData,
-      technologies: formData.technologies.split(',').map(tech => tech.trim()).filter(tech => tech),
-      achievements: formData.achievements.split(',').map(achievement => achievement.trim()).filter(achievement => achievement)
+      tecnologias: formData.tecnologias
+        .split(',')
+        .map(t => t.trim())
+        .filter(Boolean)
+        .join(', '), // 👈 backend espera string, no array
+      logros: formData.logros
+        .split(',')
+        .map(l => l.trim())
+        .filter(Boolean)
+        .join(', ') // 👈 igual
     };
-    onSubmit(submitData);
+
+    onSubmit(submitData); // 🔹 Envía el objeto listo al Admin.js
+
     if (!initialData) {
       setFormData({
-        title: '',
-        company: '',
-        period: '',
-        location: '',
-        description: '',
-        achievements: '',
-        technologies: '',
-        current: false
+        titulo: '',
+        empresa: '',
+        periodo: '',
+        ubicacion: '',
+        descripcion: '',
+        logros: '',
+        tecnologias: '',
+        usuarioReferencia: '68f663330061790d3bb8b23a'
       });
     }
   };
@@ -59,59 +70,59 @@ const ExperienceForm = ({ onSubmit, initialData, onCancel }) => {
   return (
     <form onSubmit={handleSubmit} className="experience-form">
       <div className="form-group">
-        <label htmlFor="title">Título:</label>
+        <label htmlFor="titulo">Título:</label>
         <input
           type="text"
-          id="title"
-          name="title"
-          value={formData.title}
+          id="titulo"
+          name="titulo"
+          value={formData.titulo}
           onChange={handleChange}
           required
         />
       </div>
 
       <div className="form-group">
-        <label htmlFor="company">Empresa:</label>
+        <label htmlFor="empresa">Empresa:</label>
         <input
           type="text"
-          id="company"
-          name="company"
-          value={formData.company}
+          id="empresa"
+          name="empresa"
+          value={formData.empresa}
           onChange={handleChange}
           required
         />
       </div>
 
       <div className="form-group">
-        <label htmlFor="period">Período:</label>
+        <label htmlFor="periodo">Período:</label>
         <input
           type="text"
-          id="period"
-          name="period"
-          value={formData.period}
+          id="periodo"
+          name="periodo"
+          value={formData.periodo}
           onChange={handleChange}
-          placeholder="Ej: 2020 - 2023"
+          placeholder="Ej: Enero 2023 - Octubre 2025"
           required
         />
       </div>
 
       <div className="form-group">
-        <label htmlFor="location">Ubicación:</label>
+        <label htmlFor="ubicacion">Ubicación:</label>
         <input
           type="text"
-          id="location"
-          name="location"
-          value={formData.location}
+          id="ubicacion"
+          name="ubicacion"
+          value={formData.ubicacion}
           onChange={handleChange}
         />
       </div>
 
       <div className="form-group">
-        <label htmlFor="description">Descripción:</label>
+        <label htmlFor="descripcion">Descripción:</label>
         <textarea
-          id="description"
-          name="description"
-          value={formData.description}
+          id="descripcion"
+          name="descripcion"
+          value={formData.descripcion}
           onChange={handleChange}
           rows="4"
           required
@@ -119,11 +130,11 @@ const ExperienceForm = ({ onSubmit, initialData, onCancel }) => {
       </div>
 
       <div className="form-group">
-        <label htmlFor="achievements">Logros (separados por coma):</label>
+        <label htmlFor="logros">Logros (separados por coma):</label>
         <textarea
-          id="achievements"
-          name="achievements"
-          value={formData.achievements}
+          id="logros"
+          name="logros"
+          value={formData.logros}
           onChange={handleChange}
           rows="3"
           placeholder="Logro 1, Logro 2, Logro 3"
@@ -131,12 +142,12 @@ const ExperienceForm = ({ onSubmit, initialData, onCancel }) => {
       </div>
 
       <div className="form-group">
-        <label htmlFor="technologies">Tecnologías (separadas por coma):</label>
+        <label htmlFor="tecnologias">Tecnologías (separadas por coma):</label>
         <input
           type="text"
-          id="technologies"
-          name="technologies"
-          value={formData.technologies}
+          id="tecnologias"
+          name="tecnologias"
+          value={formData.tecnologias}
           onChange={handleChange}
           placeholder="React, Node.js, MongoDB"
         />

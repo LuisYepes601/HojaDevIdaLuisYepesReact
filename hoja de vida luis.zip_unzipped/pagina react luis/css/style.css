@@ -199,7 +199,7 @@ body {
 
     width: 200px;
     max-width: 80%;
-    background-color: var(--gris-oscuro);
+    background-color: var(--logo-wpp);
     color: white;
     padding: clamp(.5rem, 2vw, 1rem);
     border-radius: 20px;
