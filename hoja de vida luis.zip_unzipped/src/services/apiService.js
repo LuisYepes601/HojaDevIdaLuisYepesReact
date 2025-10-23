@@ -69,7 +69,7 @@ export const updateExperience = async (_id, experienceData) => {
 // 🔹 Eliminar una experiencia
 export const deleteExperience = async (_id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/experiencias/${_id}`, {
+    const response = await fetch(`${API_BASE_URL}/experiencias/eliminar/${_id}`, {
       method: 'DELETE',
     });
     if (!response.ok) {
